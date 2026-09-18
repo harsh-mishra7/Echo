@@ -74,7 +74,7 @@ export const WidgetLoadingScreen = ({
     setLoadingMessage,
     setScreen,
     setErrorMessage,
-    setScreen,
+    setOrganizationId,
     setStep,
     validateOrganization,
   ]);
@@ -170,6 +170,8 @@ export const WidgetLoadingScreen = ({
     getVapiSecrets,
     setVapiSecrets,
     setLoadingMessage,
+    setErrorMessage,
+    setScreen,
     setStep,
   ]);
 

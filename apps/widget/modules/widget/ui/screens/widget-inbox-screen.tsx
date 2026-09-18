@@ -1,6 +1,6 @@
 "use client";
 
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { ArrowLeftIcon } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { WidgetHeader } from "@/modules/widget/ui/components/widget-header";
@@ -19,7 +19,7 @@ import { useInfiniteScroll } from "@workspace/ui/hooks/use-infinite-scroll";
 import { InfiniteScrollTrigger } from "@workspace/ui/components/infinite-scroll-trigger";
 
 export const WidgetInboxScreen = () => {
-  const [screen, setScreen] = useAtom(screenAtom);
+  const setScreen = useSetAtom(screenAtom);
 
   const setConversationId = useSetAtom(conversationIdAtom);
   const organizationId = useAtomValue(organizationIdAtom);

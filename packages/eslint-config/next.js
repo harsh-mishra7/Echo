@@ -48,4 +48,17 @@ export const nextJsConfig = [
       "react/prop-types": "off",
     },
   },
+  {
+    // Config files run in Node, not in the browser/service worker.
+    files: ["**/*.config.{js,cjs,mjs,ts,mts}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    // Build output and static assets are not ours to lint.
+    ignores: [".next/**", "out/**", "public/**", "next-env.d.ts"],
+  },
 ]

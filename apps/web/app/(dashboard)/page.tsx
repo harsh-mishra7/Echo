@@ -18,7 +18,7 @@ export default function Page() {
           <Button onClick={() => addUser({ name: "Randy Newman" as string })}>
             Add User
           </Button>
-          Users: {users!?.map((u) => u.name).join(", ")}
+          Users: {users?.map((u) => u.name).join(", ")}
         </div>
       </div>
     </>

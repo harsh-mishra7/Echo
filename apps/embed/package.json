@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 3002",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/node": "^20.19.9",

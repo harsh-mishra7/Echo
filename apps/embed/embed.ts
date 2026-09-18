@@ -1,6 +1,22 @@
 import { EMBED_CONFIG } from "./config";
 import { chatBubbleIcon, closeIcon } from "./icons";
 
+interface EchoWidgetApi {
+  init: (newConfig: {
+    organizationId?: string;
+    position?: "bottom-right" | "bottom-left";
+  }) => void;
+  show: () => void;
+  hide: () => void;
+  destroy: () => void;
+}
+
+declare global {
+  interface Window {
+    EchoWidget?: EchoWidgetApi;
+  }
+}
+
 (function () {
   let iframe: HTMLIFrameElement | null = null;
   let container: HTMLDivElement | null = null;
@@ -219,7 +235,7 @@ import { chatBubbleIcon, closeIcon } from "./icons";
   }
 
   // Expose API to global scope
-  (window as any).EchoWidget = {
+  window.EchoWidget = {
     init: reinit,
     show,
     hide,

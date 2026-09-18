@@ -19,7 +19,7 @@ import {
   organizationIdAtom,
   screenAtom,
 } from "../../atoms/widget-atoms";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -27,9 +27,9 @@ const formSchema = z.object({
 });
 
 export const WidgetAuthScreen = () => {
-  const [_, setScreen] = useAtom(screenAtom);
+  const setScreen = useSetAtom(screenAtom);
   const [organizationId] = useAtom(organizationIdAtom);
-  const [__, setContactSessionId] = useAtom(
+  const setContactSessionId = useSetAtom(
     contactSessionIdAtomFamily(organizationId || ""),
   );
 
