@@ -1,7 +1,14 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalPassThroughEnv": ["CI", "NEXT_RUNTIME"],
+  "globalPassThroughEnv": [
+    "CI",
+    "NEXT_RUNTIME",
+    "CLERK_SECRET_KEY",
+    "CLERK_WEBHOOK_SECRET",
+    "CLERK_JWT_ISSUER_DOMAIN",
+    "SENTRY_AUTH_TOKEN"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
