@@ -5,9 +5,9 @@ import { assert } from "convex-helpers";
 import { Id } from "../_generated/dataModel";
 
 const AI_MODELS = {
-  image: google("gemini-2.5-flash"),
-  pdf: google("gemini-2.5-flash"),
-  html: google("gemini-2.5-flash"),
+  image: google("gemini-3.6-flash"),
+  pdf: google("gemini-3.6-flash"),
+  html: google("gemini-3.6-flash"),
 } as const;
 
 const SUPPORTED_IMAGE_TYPES = [
