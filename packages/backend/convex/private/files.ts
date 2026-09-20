@@ -5,6 +5,22 @@ import rag from "../system/ai/rag";
 import { Id } from "../_generated/dataModel";
 import { paginationOptsValidator } from "convex/server";
 
+export const generateUploadUrl: ReturnType<typeof mutation> = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Identity not found",
+      });
+    }
+
+    return await ctx.storage.generateUploadUrl();
+  },
+});
+
 export const deleteFile = mutation({
   args: { entryId: vEntryId },
   handler: async (ctx, args) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAction } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { useState } from "react";
 import {
   Dialog,
@@ -31,6 +31,7 @@ export const UploadDialog = ({
   onOpenChange,
   onFileUploaded,
 }: UploadDialogProps) => {
+  const generateUploadUrl = useMutation(api.private.files.generateUploadUrl);
   const addFile = useAction(api.private.filesNode.addFile);
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -54,16 +55,30 @@ export const UploadDialog = ({
   const handleUpload = async () => {
     setIsUploading(true);
     try {
-      const blob = uploadedFiles[0];
-      if (!blob) {
+      const file = uploadedFiles[0];
+      if (!file) {
         return;
       }
-      const filename = uploadForm.filename || blob.name;
+      const filename = uploadForm.filename || file.name;
+      const mimeType = file.type || "text/plain";
+
+      const uploadUrl = await generateUploadUrl({});
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": mimeType },
+        body: file,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error("Failed to upload file to storage");
+      }
+
+      const { storageId } = await uploadResponse.json();
 
       await addFile({
-        bytes: await blob.arrayBuffer(),
+        storageId,
         filename,
-        mimeType: blob.type || "text/plain",
+        mimeType,
         category: uploadForm.category,
       });
 

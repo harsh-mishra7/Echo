@@ -1,29 +1,16 @@
 "use node";
 
 import { ConvexError, v } from "convex/values";
-import {
-  contentHashFromArrayBuffer,
-  guessMimeTypeFromContents,
-  guessMimeTypeFromExtension,
-} from "@convex-dev/rag";
 import { action } from "../_generated/server";
 import { extractTextContent } from "../lib/extractTextContent";
 import rag from "../system/ai/rag";
 import type { EntryMetadata } from "./files";
 
-function guessMimeType(filename: string, bytes: ArrayBuffer): string {
-  return (
-    guessMimeTypeFromExtension(filename) ||
-    guessMimeTypeFromContents(bytes) ||
-    "application/octet-stream"
-  );
-}
-
 export const addFile = action({
   args: {
     filename: v.string(),
     mimeType: v.string(),
-    bytes: v.bytes(),
+    storageId: v.id("_storage"),
     category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -45,17 +32,20 @@ export const addFile = action({
       });
     }
 
-    const { bytes, filename, category } = args;
+    const { storageId, filename, mimeType, category } = args;
 
-    const mimeType = args.mimeType || guessMimeType(filename, bytes);
-    const blob = new Blob([bytes], { type: mimeType });
+    const metadata = await ctx.storage.getMetadata(storageId);
 
-    const storageId = await ctx.storage.store(blob);
+    if (!metadata) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Uploaded file not found",
+      });
+    }
 
     const text = await extractTextContent(ctx, {
       storageId,
       filename,
-      bytes,
       mimeType,
     });
 
@@ -72,7 +62,7 @@ export const addFile = action({
         filename,
         category: category ?? null,
       } as EntryMetadata,
-      contentHash: await contentHashFromArrayBuffer(bytes), // Prevent duplicate files
+      contentHash: metadata.sha256, // Prevent duplicate files
     });
 
     if (!created) {
