@@ -62,16 +62,7 @@ export const create: ReturnType<typeof action> = action({
       contactSessionId: args.contactSessionId,
     });
 
-    const subscriptions = await ctx.runQuery(
-      internal.system.subscriptions.getByOrganizationId,
-      {
-        organizationId: conversation.organizationId,
-      },
-    );
-
-    const shouldTriggerAgent =
-      conversation.status === "unresolved" &&
-      subscriptions?.status === "active";
+    const shouldTriggerAgent = conversation.status === "unresolved";
 
     if (shouldTriggerAgent) {
       await supportAgent.generateText(

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import {
-  CreditCardIcon,
   InboxIcon,
   LayoutDashboardIcon,
   LibraryBigIcon,
@@ -54,14 +53,6 @@ const configurationItems = [
     title: "Voice Assistant",
     url: "/plugins/vapi",
     icon: Mic,
-  },
-];
-
-const accountItems = [
-  {
-    title: "Plans & Billing",
-    url: "/billing",
-    icon: CreditCardIcon,
   },
 ];
 
@@ -139,33 +130,6 @@ export const DashboardSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               {configurationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.url)}
-                    tooltip={item.title}
-                    className={cn(
-                      isActive(item.url) &&
-                        "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!",
-                    )}
-                  >
-                    <Link href={item.url}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        {/* Account */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {accountItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
