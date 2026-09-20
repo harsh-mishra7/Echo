@@ -31,7 +31,7 @@ export const UploadDialog = ({
   onOpenChange,
   onFileUploaded,
 }: UploadDialogProps) => {
-  const addFile = useAction(api.private.files.addFile);
+  const addFile = useAction(api.private.filesNode.addFile);
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
